@@ -2,6 +2,7 @@
 using EcommerceMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using EcommerceMVC.Helper;
+
 namespace EcommerceMVC.Controllers
 {
     public class CartController : Controller
@@ -13,10 +14,10 @@ namespace EcommerceMVC.Controllers
             _db = context;
         }
 
-        const string CART_KEY = "MYCART";
+      
         public List<CartItem> Cart =>
             HttpContext.Session.Get<List<CartItem>>
-            (CART_KEY) ?? new List<CartItem>(); 
+            (MyString.CART_KEY) ?? new List<CartItem>(); 
 
         public IActionResult Index()
         {
@@ -59,10 +60,27 @@ namespace EcommerceMVC.Controllers
                 item.SoLuong += quantity;
             }
 
-            HttpContext.Session.Set(CART_KEY,gioHang);
+            HttpContext.Session.Set(MyString.CART_KEY, gioHang);
 
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult RemoveCart(int? id) {
+        
+                
+                var gioHang = Cart;
+                var item = gioHang.SingleOrDefault(p => p.Mahh == id);
+            if (item != null)
+            {
+                    gioHang.Remove(item);
+                    HttpContext.Session.Set(MyString.CART_KEY, gioHang);
+
+            }
+                        return RedirectToAction("Index");
+            
+        
+        }
+
     }
 }
