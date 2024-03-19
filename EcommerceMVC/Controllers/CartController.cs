@@ -13,10 +13,10 @@ namespace EcommerceMVC.Controllers
             _db = context;
         }
 
-        const string CART_KEY = "MYCART";
+       
         public List<CartItem> Cart =>
             HttpContext.Session.Get<List<CartItem>>
-            (CART_KEY) ?? new List<CartItem>(); 
+            (AppSetting.CART_KEY) ?? new List<CartItem>(); 
 
         public IActionResult Index()
         {
@@ -59,7 +59,7 @@ namespace EcommerceMVC.Controllers
                 item.SoLuong += quantity;
             }
 
-            HttpContext.Session.Set(CART_KEY,gioHang);
+            HttpContext.Session.Set(AppSetting.CART_KEY,gioHang);
 
 
             return RedirectToAction("Index");

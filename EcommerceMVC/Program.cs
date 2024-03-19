@@ -1,4 +1,6 @@
 using EcommerceMVC.Data;
+using EcommerceMVC.Helper;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceMVC
@@ -26,8 +28,18 @@ namespace EcommerceMVC
                 options.Cookie.IsEssential = true;
             });
 
+            builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
-            var app = builder.Build();
+		
+			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+			{
+				options.LoginPath = "/KhachHang/DangNhap";
+				options.AccessDeniedPath = "/AccessDenied";
+			});
+
+
+
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -42,6 +54,7 @@ namespace EcommerceMVC
 
             app.UseRouting();
             app.UseSession();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

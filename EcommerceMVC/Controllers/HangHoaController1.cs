@@ -9,9 +9,7 @@ namespace EcommerceMVC.Controllers
     {
 
         private readonly MasterContext db;
-        //public HangHoaController1(MasterContext context) {
-        //        db =context;
-        //}
+        
 
         public HangHoaController1(MasterContext context) => db = context;
  
